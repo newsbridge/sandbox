@@ -1,0 +1,26 @@
+name: Typescript
+
+on: [push]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js 12.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 12.x
+      - name: Angular install
+        run: |
+          npm install -g @angular/cli@12.0.0
+      - name: NPM install
+        working-directory: typescript
+        run: |
+          npm ci
+      - name: Unit test
+        working-directory: typescript
+        run: |
+          ng test
+        env:
+          CI: true
