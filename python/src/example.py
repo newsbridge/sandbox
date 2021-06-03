@@ -12,3 +12,7 @@ def dummy_add(a, b):
 
 def dummy_multiply(c,d):
     return c*d
+
+def dummy_multiply2(c,d):
+    print("AGAIN")
+    return c*d
