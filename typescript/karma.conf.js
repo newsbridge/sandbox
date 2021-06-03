@@ -30,8 +30,9 @@ module.exports = function (config) {
       reporters: [
         { type: 'html' },
         { type: 'cobertura' },
-        { type: 'text-summary' }
-      ]
+        { type: 'text-summary' },
+        { type: 'lcovonly' },
+       ]
     },
     reporters: ['progress', 'kjhtml'],
     port: 9876,
