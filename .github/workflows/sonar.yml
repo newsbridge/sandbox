@@ -51,6 +51,7 @@ jobs:
         working-directory: scala
         run: |
           sbt jacoco
+          sbt scalastyle
 
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
