@@ -38,17 +38,17 @@ jobs:
 
 
       - name: Compile sources
-        working-directory: scala
+#        working-directory: scala
         run: sbt 'clean' 'compile' 'test:compile'
         env:
           REPO_TOKEN: ${{ secrets.GH_EXPLOIT_TOKEN }}
 
       - name: Run unit tests
-        working-directory: scala
+#        working-directory: scala
         run: sbt 'test'
 
       - name: Measure test cover
-        working-directory: scala
+#        working-directory: scala
         run: |
           sbt jacoco
 
