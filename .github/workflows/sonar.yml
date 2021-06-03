@@ -52,6 +52,22 @@ jobs:
         run: |
           sbt jacoco
 
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Angular install
+        run: |
+          npm install -g @angular/cli@12.0.0
+      - name: NPM install
+        working-directory: typescript
+        run: |
+          npm ci
+      - name: Unit test
+        working-directory: typescript
+        run: |
+          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
+
 
       - name: SonarCloud Scan
         uses: SonarSource/sonarcloud-github-action@master
