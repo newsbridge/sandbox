@@ -1,0 +1,62 @@
+name: Sonar
+on:
+  push:
+    branches:
+      - master
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+
+      - name: Install dependencies
+        working-directory: python
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Unit test
+        working-directory: python/tests
+        run: |
+          export PYTHONPATH=$PYTHONPATH:../src
+          coverage run -m pytest
+          coverage xml
+
+
+      - name: Compile sources
+        working-directory: scala
+        run: sbt 'clean' 'compile' 'test:compile'
+        env:
+          REPO_TOKEN: ${{ secrets.GH_EXPLOIT_TOKEN }}
+
+      - name: Run unit tests
+        working-directory: scala
+        run: sbt 'test'
+
+      - name: Measure test cover
+        working-directory: scala
+        run: |
+          sbt jacoco
+
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
