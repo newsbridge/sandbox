@@ -31,3 +31,12 @@ jobs:
       - name: Run unit tests
         working-directory: scala
         run: sbt 'test'
+
+      - name: Measure test cover
+        working-directory: scala
+        run: |
+          sbt jacoco
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r target/scala-2.13/jacoco/report/jacoco.xml
+        env:
+          CI: true
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_TOKEN }}

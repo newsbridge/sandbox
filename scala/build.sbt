@@ -77,3 +77,10 @@ libraryDependencies += "org.scala-lang.modules" %% "scala-parser-combinators" % 
 // documentation at http://www.scala-sbt.org/documentation.html
 libraryDependencies += "org.scalactic" %% "scalactic" % "3.2.9"
 libraryDependencies += "org.scalatest" %% "scalatest" % "3.2.9" % "test"
+
+jacocoReportSettings := JacocoReportSettings(
+  "Jacoco Coverage Report",
+  None,
+  JacocoThresholds(),
+  Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
+  "utf-8")

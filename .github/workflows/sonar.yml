@@ -1,0 +1,78 @@
+name: Sonar
+on:
+  push:
+    branches:
+      - master
+      - scala-doodle
+  pull_request:
+    types: [opened, synchronize, reopened]
+jobs:
+  sonarcloud:
+    name: SonarCloud
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0  # Shallow clones should be disabled for a better relevancy of analysis
+
+      - name: Use Python
+        uses: actions/setup-python@v1
+        with:
+          python-version: 3.9
+
+      - name: Set up JDK 11
+        uses: actions/setup-java@v1
+        with:
+          java-version: 11
+
+
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r python/requirements.txt
+
+      - name: Unit test
+        run: |
+          export PYTHONPATH=$PYTHONPATH:./python/src
+          coverage run -m pytest
+          coverage xml -o python/target/coverage.xml
+
+
+      - name: Compile sources
+#        working-directory: scala
+        run: sbt 'clean' 'compile' 'test:compile'
+        env:
+          REPO_TOKEN: ${{ secrets.GH_EXPLOIT_TOKEN }}
+
+      - name: Run unit tests
+        working-directory: scala
+        run: sbt 'test'
+
+      - name: Measure test cover
+        working-directory: scala
+        run: |
+          sbt jacoco
+          sbt scalastyle
+
+      - name: Use Node.js 14.x
+        uses: actions/setup-node@v1
+        with:
+          node-version: 14.x
+      - name: Angular install
+        run: |
+          npm install -g @angular/cli@12.0.0
+      - name: NPM install
+        working-directory: typescript
+        run: |
+          npm ci
+      - name: Unit test
+        working-directory: typescript
+        run: |
+          npm test -- --no-watch --no-progress --browsers=ChromeHeadlessCI --code-coverage
+
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}

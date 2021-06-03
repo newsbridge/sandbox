@@ -22,6 +22,15 @@ jobs:
         working-directory: python/tests
         run: |
           export PYTHONPATH=$PYTHONPATH:../src
-          python3 -m pytest -vv
+          coverage run -m pytest
+          coverage xml
+          bash <(curl -Ls https://coverage.codacy.com/get.sh) report -r coverage.xml
         env:
           CI: true
+          CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_TOKEN }}
+#
+#      - name: SonarCloud Scan
+#        uses: SonarSource/sonarcloud-github-action@master
+#        env:
+#          GITHUB_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}  # Needed to get PR information, if any
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
