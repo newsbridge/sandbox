@@ -28,3 +28,9 @@ jobs:
         env:
           CI: true
           CODACY_PROJECT_TOKEN: ${{ secrets.CODACY_TOKEN }}
+
+      - name: SonarCloud Scan
+        uses: SonarSource/sonarcloud-github-action@master
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+          SONAR_TOKEN: ${{ secrets.GH_CUSTOM_TOKEN }}
