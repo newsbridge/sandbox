@@ -34,9 +34,9 @@ jobs:
       - name: Unit test
         working-directory: python/tests
         run: |
-          export PYTHONPATH=$PYTHONPATH:../src
+          export PYTHONPATH=$PYTHONPATH:./python/src
           coverage run -m pytest
-          coverage xml
+          coverage xml -o python/target/coverage.xml
 
 
       - name: Compile sources
