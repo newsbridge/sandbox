@@ -32,7 +32,7 @@ jobs:
         working-directory: scala
         run: sbt 'test'
 
-      - name: Run unit tests
+      - name: Measure test cover
         working-directory: scala
         run: |
           sbt jacoco
