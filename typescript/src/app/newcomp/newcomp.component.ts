@@ -13,4 +13,8 @@ export class NewcompComponent implements OnInit {
   let uselessVariable="";
   }
 
+  dummy(): void {
+  let uselessVariable="";
+  }
+
 }
