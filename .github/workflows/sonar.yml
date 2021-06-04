@@ -2,8 +2,8 @@ name: Sonar
 on:
   push:
     branches:
-      - master
-      - scala-doodle
+    - master
+    - clean-sonar
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
@@ -53,6 +53,7 @@ jobs:
         run: |
           sbt jacoco
           sbt scalastyle
+          sbt scapegoat
 
       - name: Use Node.js 14.x
         uses: actions/setup-node@v1
