@@ -11,6 +11,9 @@ def dummy_add(a, b):
     return d
 
 def dummy_add2(a, b):
+    return a + b
+
+def dummy_add3(a, b):
     if a:
         if b:
             result=a+b
