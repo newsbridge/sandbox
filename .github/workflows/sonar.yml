@@ -1,6 +1,8 @@
 name: Sonar
 on:
   push:
+    - master
+    - clean-sonar
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
