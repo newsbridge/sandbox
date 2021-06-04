@@ -1,6 +1,7 @@
 name: Sonar
 on:
   push:
+    branches:
     - master
     - clean-sonar
   pull_request:
