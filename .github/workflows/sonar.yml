@@ -1,9 +1,6 @@
 name: Sonar
 on:
   push:
-    branches:
-      - master
-      - scala-doodle
   pull_request:
     types: [opened, synchronize, reopened]
 jobs:
