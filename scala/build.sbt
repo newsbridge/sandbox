@@ -85,4 +85,4 @@ jacocoReportSettings := JacocoReportSettings(
   Seq(JacocoReportFormats.ScalaHTML, JacocoReportFormats.XML), // note XML formatter
   "utf-8")
 
-scapegoatVersion in ThisBuild := "1.4.8"
+ThisBuild / scapegoatVersion := "1.4.8"
