@@ -17,5 +17,6 @@ object MapDoodle {
   }
 
   case class Example(value: String, number: Int)
+  case class DummyExample(value: String, number: Int)
 
 }
